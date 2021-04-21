@@ -32,4 +32,5 @@ interface JsonApi {
     fun getTodosFromId(
             @Path("id") pId: Int
     ) : retrofit2.Call<TodoJson>
+
 }
