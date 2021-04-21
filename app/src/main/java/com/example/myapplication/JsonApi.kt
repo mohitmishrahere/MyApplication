@@ -27,4 +27,9 @@ interface JsonApi {
     //TODOS
     @GET("todos")
     fun getTodos() : retrofit2.Call<List<TodoJson>>
+
+    @GET("todos/{id}")
+    fun getTodosFromId(
+            @Path("id") pId: Int
+    ) : retrofit2.Call<TodoJson>
 }

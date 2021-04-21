@@ -8,7 +8,7 @@ class TodoJson {
     @SerializedName("id")
     var tId = 0
     @SerializedName("title")
-    var tTitle = 0
+    var tTitle:String? = null
     @SerializedName("completed")
     var tComp = true
 }

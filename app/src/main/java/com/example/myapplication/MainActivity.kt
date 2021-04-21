@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,9 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.bumptech.glide.load.model.LazyHeaders
 
 import com.bumptech.glide.load.model.GlideUrl
-
-
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -126,6 +120,7 @@ class MainActivity : AppCompatActivity() {
            val call = API.getPosts()
            call.enqueue(object : Callback<List<Post>> {
                override fun onResponse(call: Call<List<Post>>?, response: Response<List<Post>>?) {
+
                    if (response != null) {
                        if (response.isSuccessful && response.code() == 200) {
                            list.addAll(response.body())
@@ -192,7 +187,7 @@ class MainActivity : AppCompatActivity() {
                }
 
                override fun onFailure(call: Call<List<TodoJson>>?, t: Throwable?) {
-
+                //   Toast.makeText(applicationContext,"toast message with gravity",Toast.LENGTH_SHORT).show()
                }
            })
        }
@@ -217,6 +212,7 @@ class Adapter(var list: ArrayList<Post>) : RecyclerView.Adapter<Adapter.ViewHold
     override fun getItemCount(): Int {
 
 
+
         return list.size;
 
     }
@@ -229,9 +225,8 @@ class Adapter(var list: ArrayList<Post>) : RecyclerView.Adapter<Adapter.ViewHold
             var id = post.id
             holder.itemView.setOnClickListener {
                 val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-                val pic = false
                 intent.putExtra("id", id)
-                intent.putExtra("pic", pic)
+                intent.putExtra("tk", "post")
                 holder.itemView.context.startActivity(intent)
             }
     }
@@ -280,10 +275,8 @@ class PicAdapter(var piclist: ArrayList<PhotoJson>) : RecyclerView.Adapter<PicAd
             var id = photof.pid
             holder.itemView.setOnClickListener {
                 val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-                val pic = true
-                // intent.putExtra("data",jsonData)
                 intent.putExtra("id", id)
-                intent.putExtra("pic" , pic)
+                intent.putExtra("tk", "photo")
                 holder.itemView.context.startActivity(intent)
         }
     }
@@ -315,7 +308,6 @@ class TodoAdapter(var todoList: ArrayList<TodoJson>) : RecyclerView.Adapter<Todo
 
     override fun getItemCount(): Int {
 
-
         return todoList.size;
 
     }
@@ -334,9 +326,8 @@ class TodoAdapter(var todoList: ArrayList<TodoJson>) : RecyclerView.Adapter<Todo
         var id = todof.tId
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-            val todoV = true
             intent.putExtra("id", id)
-            intent.putExtra("todoV" , todoV)
+            intent.putExtra("tk", "todo")
             holder.itemView.context.startActivity(intent)
         }
     }
