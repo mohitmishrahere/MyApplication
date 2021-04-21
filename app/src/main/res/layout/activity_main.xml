@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/blank"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textColor="@color/white"
+            android:paddingTop="0dp"
+            android:background="@color/whatsappGreen"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="0dp"
+            android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@color/whatsappGreen"
+                    app:srcCompat="@drawable/ic_baseline_camera_alt_24"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:weightSum="3"
+                    android:layout_height="40dp">
+
+                    <LinearLayout
+                    android:id="@+id/postLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                        android:layout_weight="1"
+                    android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/posts"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:background="@color/whatsappGreen"
+                            android:paddingTop="0dp"
+                            android:text="POSTS"
+                            android:textColor="@color/white" />
+
+                        <View
+                            android:id="@+id/lineBelowPost"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#ffffff" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/photoLay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:id="@+id/photos"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_weight="1"
+                            android:background="@color/whatsappGreen"
+                            android:paddingTop="0dp"
+                            android:text="PHOTOS"
+                            android:textColor="#82afa8" />
+
+                        <View
+                            android:id="@+id/lineBelowPhoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/whatsappGreen" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/todos"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:background="@color/whatsappGreen"
+                            android:paddingTop="0dp"
+                            android:text="TODOS"
+                            android:textColor="#82afa8" />
+
+                        <View
+                            android:id="@+id/lineBelowTodo"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/whatsappGreen" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_marginTop="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pic_rv_list"
+        android:layout_marginTop="65dp"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tools_rv_list"
+        android:layout_marginTop="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
