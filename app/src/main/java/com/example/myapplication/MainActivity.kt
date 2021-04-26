@@ -1,23 +1,24 @@
 package com.example.myapplication
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.myapplication.adapters.PicAdapter
+import com.example.myapplication.adapters.PostAdapter
+import com.example.myapplication.adapters.TodoAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.bumptech.glide.load.model.LazyHeaders
 
-import com.bumptech.glide.load.model.GlideUrl
+lateinit var imgFull : ImageView
+lateinit var imgBg : ImageButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerViewPic : RecyclerView
     lateinit var recyclerViewTodo : RecyclerView
 
-    lateinit var myAdapter : Adapter
+    lateinit var myAdapter : PostAdapter
     lateinit var picAdapter : PicAdapter
     lateinit var todoAdapter : TodoAdapter
 
@@ -66,9 +67,18 @@ class MainActivity : AppCompatActivity() {
         lineBelowPost = findViewById(R.id.lineBelowPost)
         lineBelowPhoto = findViewById(R.id.lineBelowPhoto)
         lineBelowTodo = findViewById(R.id.lineBelowTodo)
-        myAdapter = Adapter(list)
-        picAdapter = PicAdapter(picList)
+
+        imgFull = findViewById(R.id.imgFull)
+        imgBg = findViewById(R.id.imgBg)
+
+        myAdapter = PostAdapter(list)
+        picAdapter = PicAdapter(picList, "Activity")
         todoAdapter = TodoAdapter(todoList)
+
+        imgBg.setOnClickListener(View.OnClickListener {
+            imgBg.visibility=View.GONE
+            imgFull.visibility = View.GONE
+        })
 
         supportActionBar?.apply {
             elevation = 0F
@@ -100,9 +110,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    private fun loadPhotos() {
-//
-//    }
+    override fun onBackPressed() {
+        if(imgFull.visibility == View.VISIBLE){
+            imgFull.visibility = View.GONE
+            imgBg.visibility = View.GONE
+        }else {
+            super.onBackPressed()
+        }
+    }
 
     private fun scrViewChange() {
        if(isPost){
@@ -192,155 +207,5 @@ class MainActivity : AppCompatActivity() {
            })
        }
     }
-
-//    private fun loadPosts() {
-//
-//
-//    }
 }
 
-class Adapter(var list: ArrayList<Post>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-
-        var v = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false);
-
-        return ViewHolder(v);
-
-    }
-
-    override fun getItemCount(): Int {
-
-
-
-        return list.size;
-
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            var post = list[position]
-            holder.id.text = list[position].id.toString()
-            holder.name.text = list[position].title
-
-            var id = post.id
-            holder.itemView.setOnClickListener {
-                val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-                intent.putExtra("id", id)
-                intent.putExtra("tk", "post")
-                holder.itemView.context.startActivity(intent)
-            }
-    }
-
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-
-        lateinit var id: TextView
-        lateinit var name: TextView
-
-        init {
-            id = v.findViewById(R.id.id)
-            name = v.findViewById(R.id.name)
-        }
-    }
-}
-
-class PicAdapter(var piclist: ArrayList<PhotoJson>) : RecyclerView.Adapter<PicAdapter.PicViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PicViewHolder {
-
-
-        var pv = LayoutInflater.from(parent.context).inflate(R.layout.pic_item_layout, parent, false);
-
-        return PicViewHolder(pv);
-
-    }
-
-    override fun getItemCount(): Int {
-
-
-        return piclist.size;
-
-    }
-
-    override fun onBindViewHolder(holder: PicViewHolder, position: Int) {
-            var photof = piclist[position]
-            holder.pid.text = piclist[position].pid.toString()
-            holder.pname.text = piclist[position].ptitle
-            val picUrl = piclist[position].thumbnailUrl.toString()
-
-        val url = GlideUrl(picUrl, LazyHeaders.Builder()
-                .addHeader("User-Agent", "your-user-agent")
-                .build())
-
-            Glide.with(holder.itemView.context).load(url).into(holder.pic)
-
-            var id = photof.pid
-            holder.itemView.setOnClickListener {
-                val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-                intent.putExtra("id", id)
-                intent.putExtra("tk", "photo")
-                holder.itemView.context.startActivity(intent)
-        }
-    }
-
-    class PicViewHolder(pv: View) : RecyclerView.ViewHolder(pv) {
-
-        lateinit var pid: TextView
-        lateinit var pname: TextView
-        lateinit var pic: ImageView
-
-
-        init {
-            pid = pv.findViewById(R.id.pid)
-            pname = pv.findViewById(R.id.pname)
-            pic = pv.findViewById(R.id.pic)
-        }
-    }
-}
-
-class TodoAdapter(var todoList: ArrayList<TodoJson>) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
-
-
-        var tv = LayoutInflater.from(parent.context).inflate(R.layout.todos_items_layout, parent, false);
-
-        return TodoViewHolder(tv);
-
-    }
-
-    override fun getItemCount(): Int {
-
-        return todoList.size;
-
-    }
-
-    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        var todof = todoList[position]
-        holder.tid.text = todoList[position].tId.toString()
-        var tComp = todoList[position].tComp
-
-        if (tComp){
-            holder.iComp.setImageResource(R.drawable.ic_baseline_true_outline_24)
-        }else {
-            holder.iComp.setImageResource(R.drawable.ic_baseline_false_outline_24)
-        }
-
-        var id = todof.tId
-        holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-            intent.putExtra("id", id)
-            intent.putExtra("tk", "todo")
-            holder.itemView.context.startActivity(intent)
-        }
-    }
-
-    class TodoViewHolder(tv: View) : RecyclerView.ViewHolder(tv) {
-
-        lateinit var tid: TextView
-        lateinit var iComp: ImageView
-
-
-        init {
-            tid = tv.findViewById(R.id.tid)
-            iComp = tv.findViewById(R.id.t_img)
-        }
-    }
-}
